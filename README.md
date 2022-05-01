@@ -11,13 +11,13 @@
 
 3. In the input/data folder, the Senior_clean_data.csv file is the cleaned data, which I have used for the analysis. 
 
+4. In the Input/data folder, the 'datasheet.pdf' file is the datasheet for enhancement, which answers many questions about the dataset used in the analysis.
+
 ### Input/literature
 
-4. In the Input/literature folder, the 'TORONTO SENIORS STRATEGY 2.0.pdf' file is updated version of the strategy which the dataset is created for and help to build. 
+5. In the Input/literature folder, the 'TORONTO SENIORS STRATEGY 2.0.pdf' file is updated version of the strategy which the dataset is created for and help to build. 
 
-5. In the Input/literature folder, the 'The Toronto Seniors Strategy The Toronto Seniors Strategy full.pdf' file is the full version of the strategy which the dataset is created for and help to build. 
-
-6. In the Input/literature folder, the 'datasheet.pdf' file is the datasheet for enhancement, which answers many questions about the dataset used in the analysis. 
+6. In the Input/literature folder, the 'The Toronto Seniors Strategy The Toronto Seniors Strategy full.pdf' file is the full version of the strategy which the dataset is created for and help to build. 
 
 ### Scripts
 
