@@ -1,0 +1,396 @@
+---
+title: "A clear portrait of Toronto‘s senior citizens"
+author: "Yahui Zhang"
+date: "6 April 2022"
+output:
+  bookdown::pdf_document2:
+  toc: FALSE
+  fig_caption: yes
+thanks: "Code and data are available at: https://github.com/YahuiZhangUofT/Seniors-Toronto"
+abstract: "This analysis used the dataset 'Seniors Survey 2017' from the City of Toronto Open Data Portal to understand the characteristics of the seniors in the city of Toronto and their experience in interacting with public service. This survey helps us discern the most significant concerns of Toronto's senior citizens and how some questions help answer the others. This report aims to help audiences grasp what are the seniors' characteristics and experiences in the city and lays a foundation for further search on this topic.  \\par
+ \\textbf{Keywords:} Senior, Government service, Accessibility, Concerns, City of Toronto" 
+bibliography: references.bib
+ 
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(readr)
+library(rmarkdown)
+library(tinytex)
+library(bookdown)
+library(dplyr)
+
+
+```
+
+```{r load data, include=FALSE}
+#load clean data 
+Senior_clean_data <- read.csv("Senior_clean_data.csv")
+
+```
+
+\newpage
+# Introduction
+Today, Toronto is one of the most diverse cities in the world. The dynamic of the city of Toronto is the key to how it attracts thousands of dream pursuing individuals to come and settle in this international city, along with its inclusiveness. However, like many other cities in developed economies, the city of Toronto now faces many challenges from its aging population, and the seniors are among the most vulnerable groups. This raises questions like the characteristics of the senior population in Toronto, their major concerns and desire, and how is their experience in interacting with the city's public service?
+
+This analysis will lay out an in-depth study of the city's senior population's characteristics and reveal the seniors' experience in interacting with services offered by the city with the data gathered from the Senior Survey 2017 by the city of Toronto. The data is accessed from the City of Toronto's open data portal. By analyzing the seniors' age group, gender, employment status, level of comprehension in English, preferred service language, majors concerns related to seniors, medium of receiving information about the service provided in the city, financial situation, main transportation modes, frequency of participating in physical activities, volunteer works and use of the internet, and their awareness of the free programs offered by the public, we can create a clear portrait on Toronto's senior citizens.
+
+Additionally, I have also created a script for simulation and a datasheet for enhancement for this paper. The simulation script will help simulate data on three questions raised on the survey to help replace the responses left unanswered with a randomized response to help fill the gap. Furthermore, the datasheet for enhancement will give more insights into the dataset's creator, the dataset's owner, the level of completeness of the dataset, and what the dataset is about to help enhance the paper. Both the datasheet for enhancement and the script for simulation are available on the Github repository associated with the paper.
+
+\newpage
+# Data
+To better understand senior citizens' background, concerns, and the performance of the government services in the city of Toronto, I have extracted the data set 'Seniors Survey 2017' [@Senior] from the City of Toronto's open data portal [@opendatatoronto]. The data set is of good quality in general. Some missing data was contained in this data set as some respondents may not feel comfortable answering specific questions, and helping conduct this survey is voluntary. In the case of not receiving answers to certain questions, they are left blank in the dataset and expressed as 'NA' in the figures. Meanwhile, some questions ask respondents to check all applicable answers, while others may only ask respondents to select some of the answers that the respondent considers most relevant. According to the 'about' section on top of the data set's page, this survey was conducted in 2017 as part of the City's Seniors' Strategy, "to identify various needs of Toronto's seniors' population, in order to better inform on relevant recommendations" [@Senior]. Many important questions were asked in this survey to examine the characteristics and needs of seniors in order to help improve the city's performance in providing government services.
+
+Overall, The seniors Survey conducted in 2017 consists of 6,939 observations and 69 variables. Among these variables, I have excluded 12 variables and combined several variables in the same graph to help conduct our analysis more effectively and efficiently. The variables I analyzed included the frequency of respondents' participation in physical activities, volunteer work, and use of the Internet; preferred modes of transportation and public perceptions of the TTC; the difficulty of paying bills and home repairs; the needs and concerns of seniors and how they learn about government-provided services; respondents' characteristics, including gender, employment status, and age group; and whether they understand English and their preferred language of service. Through analyzing this data, it will help the audiences grasp the characteristics of seniors in the City of Toronto and their opinions on public services. 
+
+To analyzed the data, I have used the R language to help with the process, and employed several R packages to help retrieve, clean, and visualize the data [@CiteR]. For the data cleaning process, I first retrieved the data set from the City of Toronto's open data portal with the help of the R package opendataToronto [@opendatatoronto]. Then, the data cleaning process focused mainly on changing the column names in the data set, as the column names were expressed as long questions, which is not optimal for plotting graphs. After the cleaning process was done, I then used the package readr to help save the clean data in CSV format and load the clean data file for data manipulation in a later stage [@readr]. Furthermore, I have implemented the R package tidyverse to help manipulate the data and plot the graphs needed for the analysis [@tidyverse]. Notably, the ggplot function incorporated in the ggplot2 package [@ggplot2] to help create the charts, and the filter and select function provided in the dplyr package to help manipulate the data [@dplyr]. In the end, the packages knitr [@knitr], tinytex [@tinytex], bookdown [@bookdown], and rmarkdown [@rmarkdown] were used to help produce the paper in a rmarkdown file and knit the paper in a pdf format. 
+
+For data visualization, I have chosen to plot several bar charts to help demonstrate the data effectively. Creating bar charts was most appropriate for this task. The main purpose of these charts was to show how many respondents have voted for each answer and to identify the most popular answers to help set the direction for improving the service quality. In total, seventeen bar charts are generated throughout the analysis to help showcase the characteristics of the seniors in Toronto, their concerns, needs, and desires, and how they interact with the services offered by the public. By looking at the data and the graphs created, I have caught that the majority of the seniors in the city are female and retried, with a right-skewed distribution of age groups from low to high that most seniors falling in the age group 65 to 69 years old, can understand, read or speak English, have someone they can call to help, prefer English as the service language, have no difficulty in paying the bills or home repair cost, either drive, take TTC or walk as the main modes of transportation, often exercise but lack of awareness of the free programs offered by the government, use the internet frequently, and never participate in any volunteer or charity work. Moreover, there is an equal amount of seniors who answered they use or do not use TTC often, and the top three reasons they choose not to use TTC are driving is faster, prefer driving, and using other services to get around. Meanwhile, the biggest concern of the seniors is regarding the health care and home care services, and the most common source of how seniors get to learn about government services is through the internet search engine. One of the major weaknesses of this data set is that many respondents have left some questions unanswered. This has made it challenging to learn about the correlation between some of the characteristics of the seniors and their answers to specific questions, as their unwillingness to answer certain questions might be caused by certain factors that are closely related to a particular character.
+
+
+\newpage
+# Results
+The results of this analysis will help to shed light on the characteristics and socioeconomic status of seniors in the city of Toronto. They also help us understand the issues that matter most to seniors in the city of Toronto and the level of effectiveness and efficiency of the city's services. These figures generated in this analysis aid in discussing issues such as how active Toronto seniors are in participating in physical activities; how aware seniors in the city are of free programs offered by the community and government; how frequently do they use the internet; how often they participate in volunteer activities; what modes of transportation seniors use most often; whether seniors take public transportation regularly and why they don't; whether they have difficulties in paying bills and repairing their homes; the top concerns of the seniors; how do they learn about government services; whether seniors have someone to help them when they need help; the gender, employment status, and age group of the seniors in the city; whether they understand/speak/read English, and what language they prefer to use when receiving government services. In brief, these results help us understand Toronto seniors' characteristics, needs, and desires. By perceiving these factors, the public can now improve its services accordingly to best fulfill their needs and desires based on the seniors' characteristics and habits. 
+
+## Figure 1 & 2
+```{r one, fig.cap="How often do seniors participate in physical activities?",fig.height=7, fig.width=12, echo=FALSE}
+
+
+physical_activities <- Senior_clean_data %>%
+  select(c(1))
+
+ggplot(physical_activities, aes(x = Physical_activity, fill = Physical_activity)) + 
+  geom_text(stat='count', aes(label=..count..), vjust=-1)+
+  geom_bar()+ 
+  labs(x = "Frequency",
+       y = "Counts",
+       fill = "How often do seniors exercise?",
+       title = "Count of respondents' exercise frequency")+
+       theme(axis.text.x = element_text(angle=0, vjust=1))
+
+```
+
+```{r two, fig.cap="How informative are the seniors about the free programs offered by the government?",fig.height=7, fig.width=12, echo=FALSE}
+
+
+free_program <- Senior_clean_data %>%
+  select(c(2))
+
+ggplot(free_program, aes(x = free_programs, fill = free_programs)) + 
+  geom_text(stat='count', aes(label=..count..), vjust=-1)+
+  geom_bar()+ 
+  labs(x = "Yes/No",
+       y = "Counts",
+       fill = "Aware of the programs",
+       title = "Number of respondents know about the free exercise and falls prevention programs offered by the government")+
+       theme(axis.text.x = element_text(angle=0, vjust=1))
+
+```
+
+Through figure \@ref(fig:one) and \@ref(fig:two), we can get a grasp of how often do seniors in city of Toronto participate in physical activities and if they are aware of the free exercise and falls prevention programs offered by Toronto Public Health and their Local Health Integration Network. Figure \@ref(fig:one) shows that most seniors work out at least once a day, and the second largest group of respondents answered they work our at least a few times a week. These two categories represents more than two-thirds of the answers, which indicates that the majority of the seniors work out quite often. The categories 'at least once a month' and 'never' get the least amount of responds also help to confirm the presumption made above. This result shows a good sign for the seniors' health, as working out can help combat health conditions and diseases [@health]. Despite the majority of the senior citizens execrise quite often, figure \@ref(fig:two) suggests that the majority of the seniors do not know about the free exercise and falls prevention programs offered by Toronto Public Health and their Local Health Integration Network. With more than half of the vaild responses answered No to this questions, we can say that the government is lack in helping the senior citizens get to know about the free programs offered by the public.
+
+\newpage
+## Figure 3 
+```{r three, fig.cap="How often do seniors use the internet?",fig.height=7, fig.width=12, echo=FALSE}
+
+
+internet <- Senior_clean_data %>%
+  select(c(4))
+
+ggplot(internet, aes(x = frequency_internet, fill = frequency_internet)) + 
+  geom_text(stat='count', aes(label=..count..), vjust=-1)+
+  geom_bar()+ 
+  labs(x = "Frequency",
+       y = "Counts",
+       fill = "Frequency of using the internet",
+       title = "Frequency of Internet use by seniors")+
+       theme(axis.text.x = element_text(angle=0, vjust=1))
+
+```
+
+Figure \@ref(fig:three) reveals that the vast majority of the senior citizens use the internet frequently with a frequency of at least once a day. The second largest group of the answers is 'never.' This shows that there is a significant gap between the seniors that use the internet and who do not. If they don't use the internet often, then the best chance is that they do not use the internet at all. By understanding this information, the government can quickly adjust their strategy in promoting programs that could be beneficial to the seniors. To ensure the delivery of the information on the programs, the government could increase both the frequency of online posting and offline promotion. 
+
+\newpage
+## Figure 4
+```{r four, fig.cap="How often do seniors participate in volunteer or charity work?",fig.height=7, fig.width=12, echo=FALSE}
+
+
+volunteer <- Senior_clean_data %>%
+  select(c(5))
+
+ggplot(volunteer, aes(x = participation_volunteer, fill = participation_volunteer)) + 
+  geom_text(stat='count', aes(label=..count..), vjust=-1)+
+  geom_bar()+ 
+  labs(x = "Frequency",
+       y = "Counts",
+       fill = "Frequency of participation",
+       title = "Frequency of participation of seniors in volunteer activities.")+
+       theme(axis.text.x = element_text(angle=0, vjust=1))
+
+```
+
+Figure \@ref(fig:four) shows that most senior citizens in the city of Toronto have never participate in any volunteer or charity work in the past three month. The least amount of respondents have answered that they participate in volunteer or charity work at least once a day in the past three month. In this chart, the number of respondents increase as the frequency decrease. This indicates that there is a lack of interest in charitable activities among the majority of the seniors in the City of Toronto.
+
+\newpage
+## Figure 5, 6 & 7
+```{r five, fig.cap="Frequently used modes of transportation to get around Toronto",fig.height=7, fig.width=12, echo=FALSE}
+
+frequent_modes <- Senior_clean_data %>%
+  select(c(6,7,8,9,10,11,12,13)) %>%
+  gather() %>%
+  filter(value == '1') 
+
+ggplot(frequent_modes, aes(x = key, fill = key)) + 
+  geom_text(stat='count', aes(label=..count..), vjust=-1)+
+  geom_bar()+ 
+  labs(x = "Transportation modes",
+       y = "Votes",
+       fill = "Frequent transportation modes",
+       title = "Transportation modes frequently used by the seniors")+
+       theme(axis.text.x = element_text(angle=0, vjust=1))
+```
+
+```{r six, fig.cap="Do seniors use TTC often?",fig.height=7, fig.width=12, echo=FALSE}
+
+
+frequent_TTC <- Senior_clean_data %>%
+  select(c(14))
+
+ggplot(frequent_TTC, aes(x = Frequently_use_TTC, fill = Frequently_use_TTC)) + 
+  geom_text(stat='count', aes(label=..count..), vjust=-1)+
+  geom_bar()+ 
+  labs(x = "Yes/No",
+       y = "Counts",
+       fill = "Using TTC frequently?",
+       title = "Number of respondents use/do not use TTC Frequently")+
+       theme(axis.text.x = element_text(angle=0, vjust=1))
+
+
+```
+
+```{r seven, fig.cap="Why don't seniors use TTC?",fig.height=7, fig.width=12, echo=FALSE}
+
+reasons_no_TTC <- Senior_clean_data %>%
+  select(c(15,16,17,18,19,20,21,22,23,24)) %>%
+  gather() %>%
+  filter(value == '1') 
+
+ggplot(reasons_no_TTC, aes(x = key, fill = key)) + 
+  geom_text(stat='count', aes(label=..count..), vjust=-1)+
+  geom_bar()+ 
+  labs(x = "Reasons",
+       y = "Votes",
+       fill = "Reasons not taking TTC",
+       title = "Reasons that seniors choose not to take TTC")+
+       theme(axis.text.x = element_text(angle=90, vjust=1))
+```
+
+Figure \@ref(fig:five) shows that the seniors' most frequently used mode of transportation is TTC, followed by driving and walking. And there is a significant gap between these three modes of transportation and other modes of transportation. To note, the least amount of respondents have answered that they have been using community transportation programs to help them get around. This implies that there could be an issue with the community transportation program as there is a lack of popularity in taking these programs. The public should find a way to increase the accessibility of the program to attract more senior citizens to use it. Figure \@ref(fig:six) show that about half of the seniors take TTC often, while the other half answered otherwise. By comparing this number to the number of respondents who answered they use TTC frequently in Figure \@ref(fig:five), we can imagine that taking TTC frequently versus taking other modes of transportation frequently is somewhat incompatible. This means that the majority of the seniors who take TTC frequently do not have another frequently used mode of transportation. In figure \@ref(fig:seven), it shows the top reasons why seniors do not take TTC frequently. Among these reasons, the answers 'driving is faster', 'prefer driving' and 'use other services' are the top three reasons why seniors do not take TTC frequently. This result caters to our previous assumptions as these top three reasons all lie in other modes of transportation. 
+
+\newpage
+## Figure 8 & 9
+```{r eight, fig.cap="Have seniors delay their home repair/modification becasue they were unaffordable?",fig.height=7, fig.width=12, echo=FALSE}
+
+reasons_no_TTC <- Senior_clean_data %>%
+  select(c(25,26,27)) %>%
+  gather() %>%
+  filter(value == '1') 
+
+ggplot(reasons_no_TTC, aes(x = key, fill = key)) + 
+  geom_text(stat='count', aes(label=..count..), vjust=-1)+
+  geom_bar()+ 
+  labs(x = "Type of repair/modification",
+       y = "Counts",
+       fill = "Type of home repair delayed",
+       title = "Types of home repair/modification delayed due to unaffordable")+
+       theme(axis.text.x = element_text(angle=0, vjust=1))
+```
+
+```{r nine, fig.cap="Do seniors have difficulty paying bills?",fig.height=7, fig.width=12, echo=FALSE}
+
+
+difficulty_paying <- Senior_clean_data %>%
+  select(c(28))
+
+ggplot(difficulty_paying, aes(x = difficulty, fill = difficulty)) + 
+  geom_text(stat='count', aes(label=..count..), vjust=-1)+
+  geom_bar()+ 
+  labs(x = "Yes/No",
+       y = "Counts",
+       fill = "Having difficulty to pay bills?",
+       title = "Number of respondents have/do not have difficulty paying bills")+
+       theme(axis.text.x = element_text(angle=0, vjust=1))
+
+
+```
+
+Figure \@ref(fig:eight) and \@ref(fig:nine) show that the majority of the seniors in the city of Toronto have no trouble paying for home repair or modifications because they were affordable, and they have no difficulty paying rent, mortgage, Hydro bill, or other housing costs. This result reveals that the majority of the senior citizens are in good financial situation. However, it is important to note that there still is a worth noting number of respondents who answered yes to these questions. The senior citizens are among the most vulnerable groups so that the government should pay enough attention to this issue before it is too late. 
+
+\newpage
+## Figure 10, 11 & 12
+```{r ten, fig.cap="What are the top concerns related to seniors in Toronto?",fig.height=7, fig.width=12, echo=FALSE}
+
+top_concerns <- Senior_clean_data %>%
+  select(c(37,38,39,40,41,42,43,44,45,46,47)) %>%
+  gather() %>%
+  filter(value == '1') 
+
+ggplot(top_concerns, aes(x = key, fill = key)) + 
+  geom_text(stat='count', aes(label=..count..), vjust=-1)+
+  geom_bar()+ 
+  labs(x = "Concerns",
+       y = "Counts",
+       fill = "Type of concerns",
+       title = "Top concerns of senior citizens at the City of Toronto")+
+       theme(axis.text.x = element_text(angle=90, vjust=1))
+```
+
+```{r eleven, fig.cap="How do seniors learn about city of Toronto government services for older persons?",fig.height=7, fig.width=12, echo=FALSE}
+
+government_service <- Senior_clean_data %>%
+  select(c(48,49,50,51,52,53,45,55,56,57)) %>%
+  gather() %>%
+  filter(value == '1') 
+
+ggplot(government_service, aes(x = key, fill = key)) + 
+  geom_text(stat='count', aes(label=..count..), vjust=-1)+
+  geom_bar()+ 
+  labs(x = "Source",
+       y = "Counts",
+       fill = "Source of information",
+       title = "Sources of how seniors learned about the government services in the city")+
+       theme(axis.text.x = element_text(angle=90, vjust=1))
+```
+
+```{r twelve, fig.cap="Do seniors have people they can call for help?",fig.height=7, fig.width=12, echo=FALSE}
+
+
+call_help <- Senior_clean_data %>%
+  select(c(58))
+
+ggplot(call_help, aes(x = people_help, fill = people_help)) + 
+  geom_text(stat='count', aes(label=..count..), vjust=-1)+
+  geom_bar()+ 
+  labs(x = "Yes/No",
+       y = "Counts",
+       fill = "Someone seniors can call for help",
+       title = "Number of respondents have someone to call for help")+
+       theme(axis.text.x = element_text(angle=0, vjust=1))
+
+```
+
+Figure \@ref(fig:ten), \@ref(fig:eleven), and \@ref(fig:twelve) help visualize the top concerns of the seniors, the ways they learn about government services, and wether they have someone they can call to help when needed. Figure \@ref(fig:ten) shows that the most concerning issue is health care and home care, with housing affordability and arability coming in the following. This helps us understand what seniors care about the most and how the government should adjust its policy to best fulfill the seniors' needs and desires. Moreover, with the information revealed in the figure \@ref(fig:eleven), the city can now decide on the way to promote government services accordingly based on where seniors learn about the government services. According to the data, the top three ways how seniors learn about government services are the internet search engine, word of mouth, and the city of Toronto website. This indicates that the norm lies on the internet, and this has become the most common source where the seniors get to know about government services. In figure \@ref(fig:twelve), it shows that most seniors have someone to call for help when needed. The number is good but not perfect because every senior matters and no one should be left behind. 
+
+\newpage
+## Figure 13, 14 & 15
+```{r thirteen, fig.cap="What are the employment status of the seniors?",fig.height=7, fig.width=12, echo=FALSE}
+
+
+employment <- Senior_clean_data %>%
+  select(c(60))
+
+ggplot(employment, aes(x = employment_status, fill = employment_status)) + 
+  geom_text(stat='count', aes(label=..count..), vjust=-1)+
+  geom_bar()+ 
+  labs(x = "Status",
+       y = "Counts",
+       fill = "Employment Status",
+       title = "Toronto Seniors' employment status")+
+       theme(axis.text.x = element_text(angle=90, vjust=1))
+
+```
+
+```{r fourteen, fig.cap="Self-reported gender/sex of Toronto seniors",fig.height=7, fig.width=12, echo=FALSE}
+
+
+gender_sex <- Senior_clean_data %>%
+  select(c(61))
+
+ggplot(gender_sex, aes(x = gender, fill = gender)) + 
+  geom_text(stat='count', aes(label=..count..), vjust=-1)+
+  geom_bar()+ 
+  labs(x = "Gender",
+       y = "Counts",
+       fill = "Gender/Sex",
+       title = "Gender/Sex of Toronto seniors")+
+       theme(axis.text.x = element_text(angle=0, vjust=1))
+
+```
+
+```{r fifteen, fig.cap="Which age category do seniors belong to?",fig.height=7, fig.width=12, echo=FALSE}
+
+
+age <- Senior_clean_data %>%
+  select(c(69))
+
+ggplot(age, aes(x = age_group, fill = age_group)) + 
+  geom_text(stat='count', aes(label=..count..), vjust=-1)+
+  geom_bar()+ 
+  labs(x = "Age group",
+       y = "Counts",
+       fill = "Age group",
+       title = "Age group of Toronto seniors")+
+       theme(axis.text.x = element_text(angle=0, vjust=1))
+
+```
+
+Figure \@ref(fig:thirteen), \@ref(fig:fourteen), and \@ref(fig:fifteen) together demonstrated the characteristics of the senior citizens in the city of Toronto. Figure \@ref(fig:thirteen) shows that most seniors are retired, and the second largest group is the seniors with full-time employment. The group with the least amount of respondents is the senior who are unemployed but still trying to look for a job. Figure \@ref(fig:fourteen) shows that the majority of the seniors in the city are females, which corresponds to the statistics published by Statistics Canada [@aging]. Furthermore, figure \@ref(fig:fifteen) shows that the age groups of Toronto seniors follow a right-skewed distribution, with most seniors in the 65 to 69 years old age group.
+
+\newpage
+## Figure 16 & 17
+```{r sixteen, fig.cap="Can Toronto seniors understand/speak/read english?",fig.height=7, fig.width=12, echo=FALSE}
+
+government_service <- Senior_clean_data %>%
+  select(c(63,64,65,66)) %>%
+  gather() %>%
+  filter(value == '1') 
+
+ggplot(government_service, aes(x = key, fill = key)) + 
+  geom_text(stat='count', aes(label=..count..), vjust=-1)+
+  geom_bar()+ 
+  labs(x = "Level of english",
+       y = "Counts",
+       fill = "Comprehension of english",
+       title = "Number of respondents can read, speak, or understand English")+
+       theme(axis.text.x = element_text(angle=0, vjust=1))
+```
+
+```{r seventeen, fig.cap="In what language(s) would seniors feel most comfortable to receive services?",fig.height=7, fig.width=12, echo=FALSE}
+
+
+language_comfortable<- Senior_clean_data %>%
+  select(c(67))
+
+ggplot(language_comfortable, aes(x = service_language, fill = service_language)) + 
+  geom_text(stat='count', aes(label=..count..), vjust=-1)+
+  geom_bar()+ 
+  labs(x = "Language",
+       y = "Counts",
+       fill = "Preferred service language",
+       title = "Service language preferred by the seniors")+
+       theme(axis.text.x = element_text(angle=90, vjust=1))
+
+```
+
+Figure \@ref(fig:sixteen) and \@ref(fig:seventeen) show that most seniors in the city of Toronto are able to understand, speak, or read English, and the most preferred language of service is still English. The numbers are not shocking as English is the official and working language in the city. However, figure \@ref(fig:seventeen) has shown that the seniors in the city speak various languages, including Chinese, Spanish, Hindi, etc. This demonstrates that Toronto is a city with great diversity, and the government should pay attention to this when making policies and providing government services. 
+
+\newpage
+# Discussion 
+## What is done? 
+This paper is based on the data collected in the senior survey 2017 by the city of Toronto. Using the data collected from the survey, I have created seventeen bar graphs to help showcase the characteristics, habits, desires, and needs of the senior citizens in the city of Toronto. This paper also helps to reveal how seniors think of the services provided by the government and gives suggestions for improvement.
+
+## What can we learn about the world? 
+We can learn a lot from this paper about the world. The figures created in this paper help create a precise portrait of Toronto seniors. These figures reveal that most seniors in the city are female, retired, between the age of 65 to 69, able to understand, speak, or read English, prefer English as the service language, have someone they can call to help, in good financial situation, concerns about issues related to health care and home care, most likely use the internet to learn about government services, takes TTC or drive to get around, do not participate in volunteer activities often, execrate frequently, and do not aware of the free exercise and falls prevention program offered by the government.
+
+## Weaknesses 
+The major weakness of the paper comes from the data itself. Many respondents have not answered all the questions that were asked on the survey. This creates a barrier to learning the correlations between some of the characteristics of the seniors and their answers to specific questions. Moreover, there is not much description of the data itself from the city's website or open data Toronto. We do not know how the data is collected and how questions are structured to fit the city's need to conduct this survey. In terms of the paper itself, it would be a cut above if I could go deeper into the topic and explain how each question correlated to the other. This will help understand the reasons behind these responses and, thus, understand why the seniors have this specific concern.
+
+
+## In the future
+In the future, we can analyze how the differences in cultural backgrounds might affect seniors' primary concerns and their accessibility to public service in the city of Toronto. This topic could be interesting and helpful in studying the city's senior population as Toronto is one of the most diverse cities in the world, and it has become more diverse than ever. Studying the impact of cultural background on seniors' experience in the city can help the government examine what's lacking in its policies and means of providing social services. 
+
+\newpage
+# References
