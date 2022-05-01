@@ -1,5 +1,5 @@
 #### Preamble ####
-# Purpose: Clean Toronto Shelter System Flow data from open data Toronto
+# Purpose: Clean senior survey data from open data Toronto
 # Author: Yahui Zhang
 # Date: 10 April 2022
 # Contact: yahui.zhang@mail.utoronto.ca
